@@ -1,0 +1,5 @@
+<!-- rounded_card_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#F5F5F5" /> <!-- Light gray background color -->
+    <corners android:radius="50dp" /> <!-- Adjust corner radius to your liking -->
+</shape>
