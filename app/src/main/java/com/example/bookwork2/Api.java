@@ -13,6 +13,13 @@ public interface Api {
     @GET("books/v1/volumes")
     Call<ResponseBody> searchByQuery(@Query("q") String query, @Query("maxResults") String max);
 
+    @GET("books/v1/volumes")
+    Call<ResponseBody> advancedSearch(@Query("q") String query,
+                                      @Query("intitle") String title,
+                                      @Query("inauthor") String author,
+                                      @Query("subject") String genre,
+                                      @Query("inpublisher") String publisher);
+
     
 
 }

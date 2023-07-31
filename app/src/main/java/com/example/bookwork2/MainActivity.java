@@ -3,9 +3,7 @@ package com.example.bookwork2;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -19,7 +17,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
     private ActivityMainBinding binding;
 
-    private HomeViewModel viewModel;
+    private HomeViewModel homeViewModel;
+    private SearchViewModel searchViewModel;
 
     private BottomNavigationView bottomNavigationView;
     private FragmentManager fragmentManager;
@@ -43,7 +42,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         searchFragment = new SearchFragment();
         profileFragment = new ProfileFragment();
 
-        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
         binding.setLifecycleOwner(this);
 
     }

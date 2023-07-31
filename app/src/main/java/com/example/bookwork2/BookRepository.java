@@ -5,7 +5,9 @@ import static com.example.bookwork2.Book.BOOK_STATUS_INTERESTED;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -103,7 +105,7 @@ public class BookRepository {
                         imageURL = parseImageURL(array.getJSONObject(i).getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail"));
                         bookURL = array.getJSONObject(i).getJSONObject("volumeInfo").getString("previewLink");
                         shortDesc = "blah";
-                        longDesc = "blah blah blah";
+                        longDesc = array.getJSONObject(i).getJSONObject("volumeInfo").getString("description");
                         shelf = "random";
 
                         list.add(new Book(i, title, author, imageURL, bookURL, shortDesc, longDesc, shelf));
@@ -131,6 +133,67 @@ public class BookRepository {
 
         String newUrl = rawURL.substring(0, 4) + "s" + rawURL.substring(4);
         return newUrl;
+
+    }
+
+    public void advancedSearch(@Nullable String title, @Nullable String author, @Nullable String genre, @Nullable String publisher) {
+
+        Call<ResponseBody> call = ApiClient.getInstance().getApi().advancedSearch(title, title, author, genre, publisher);
+        List<Book> list = new ArrayList<>();
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                String responseBody = null;
+                JSONObject json = null;
+                try {
+                    responseBody = response.body().string();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    json = new JSONObject(responseBody);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+                JSONArray array = null;
+
+                try {
+                    array = (JSONArray) json.getJSONArray("items");
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+                for (int i = 0; i < array.length(); i++) {
+                    try {
+                        String title, author, imageURL, bookURL, shortDesc, longDesc, shelf;
+
+                        title = array.getJSONObject(i).getJSONObject("volumeInfo").get("title").toString();
+                        author = array.getJSONObject(i).getJSONObject("volumeInfo").getJSONArray("authors").get(0).toString();
+                        imageURL = parseImageURL(array.getJSONObject(i).getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail"));
+                        bookURL = array.getJSONObject(i).getJSONObject("volumeInfo").getString("previewLink");
+                        shortDesc = "blah";
+                        longDesc = array.getJSONObject(i).getJSONObject("volumeInfo").getString("description");
+                        shelf = "random";
+
+                        list.add(new Book(i, title, author, imageURL, bookURL, shortDesc, longDesc, shelf));
+
+                    } catch (JSONException e) {
+                        //throw new RuntimeException(e);
+                        continue;
+                    }
+                }
+
+                searchedBooks.postValue(list);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                searchedBooks.postValue(null);
+            }
+        });
 
     }
 

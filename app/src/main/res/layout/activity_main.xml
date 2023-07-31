@@ -3,7 +3,7 @@
     <data>
 
         <variable
-            name="searchViewModel"
+            name="homeViewModel"
             type="com.example.bookwork2.HomeViewModel" />
 
     </data>

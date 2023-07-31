@@ -47,6 +47,11 @@ public class HomeViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Book>> getSearchedBooks() {
-        return this.searchedBooks;
+
+        if (this.searchedBooks == null) {
+            return new MutableLiveData<List<Book>>();
+        } else {
+            return this.searchedBooks;
+        }
     }
 }

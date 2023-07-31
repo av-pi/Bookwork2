@@ -1,4 +1,5 @@
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,14 +9,143 @@
 
     </data>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".SearchFragment">
+        android:padding="16dp">
 
+        <!-- Search Bar Container -->
+        <LinearLayout
+            android:id="@+id/searchBarContainerSearchFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/search_bar_background"
+            android:elevation="4dp"
+            android:orientation="horizontal"
+            android:padding="8dp">
 
+            <ImageView
+                android:id="@+id/searchIconSearchFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_search"
+                app:tint="@color/search_icon_color" />
 
-    </FrameLayout>
+            <EditText
+                android:id="@+id/searchEditTextSearchFragment"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:hint="Advanced search..."
+                android:inputType="text"
+                android:text="@={searchViewModel.title}"
+                android:maxLines="1"
+                android:textColor="@color/search_text_color"
+                android:textColorHint="@color/search_hint_color" />
+
+            <ImageButton
+                android:id="@+id/clearButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_clear"
+                android:visibility="gone"
+                app:tint="@color/clear_button_color" />
+        </LinearLayout>
+
+        <!-- Advanced Search Section -->
+        <LinearLayout
+            android:id="@+id/llAdvancedSearch"
+            android:layout_below="@id/searchBarContainerSearchFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible"
+            android:layout_marginTop="8dp">
+
+            <!-- Author -->
+            <EditText
+                android:id="@+id/editTextAuthor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Book Author"
+                android:text="@={searchViewModel.author}"/>
+
+            <!-- Genre -->
+            <EditText
+                android:id="@+id/editTextGenre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Book Genre"
+                android:text="@={searchViewModel.genre}"/>
+
+            <!-- Publisher -->
+            <EditText
+                android:id="@+id/editTextPublisher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Book Publisher"
+                android:text="@={searchViewModel.publisher}"/>
+
+            <!-- Publication Year Range Slider -->
+            <!-- You can use third-party libraries like 'DiscreteSlider' or 'CrystalRangeSeekbar' for this -->
+            <!-- Price Range Slider -->
+            <!-- Star Rating Filter -->
+            <!-- Language Dropdown -->
+            <!-- Sort Order RadioGroup -->
+
+            <!-- Apply and Clear Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnApply"
+                    android:layout_width="0dp"
+                    android:height="20dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_margin="10dp"
+                    android:text="Go"/>
+
+                <Button
+                    android:id="@+id/btnClear"
+                    android:layout_width="0dp"
+                    android:layout_margin="10dp"
+                    android:height="20dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Clear"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Search Results Section -->
+        <!-- RecyclerView or GridView to display search results -->
+        <!-- You can use RecyclerView with a custom BookItemViewHolder and BookItemAdapter -->
+
+        <!-- Empty State View -->
+        <LinearLayout
+            android:id="@+id/llEmptyState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/searchBarContainerSearchFragment"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical">
+
+            <!-- Add a pretty illustration here -->
+            <!-- TextView with a friendly message like "Oops! No books found matching your search." -->
+            <!-- Button to "Reset Filters" or "Start a New Search" -->
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </layout>

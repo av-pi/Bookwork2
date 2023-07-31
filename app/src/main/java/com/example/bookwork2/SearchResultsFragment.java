@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,12 +19,17 @@ import java.util.List;
 
 public class SearchResultsFragment extends BottomSheetDialogFragment {
 
-    private HomeViewModel viewModel;
+    private HomeViewModel homeViewModel;
+    private SearchViewModel searchViewModel;
+
     private BookAdapter bookAdapter;
+
+    private final String FRAGMENT_TAG = "searchResultsTag";
 
     public SearchResultsFragment() {
         // Required empty public constructor
     }
+
 
     public static SearchResultsFragment newInstance(String param1, String param2) {
         SearchResultsFragment fragment = new SearchResultsFragment();
@@ -46,7 +50,8 @@ public class SearchResultsFragment extends BottomSheetDialogFragment {
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerView);
 
         // Initialize the ViewModel
-        viewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
+        homeViewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
+        searchViewModel = new ViewModelProvider(getActivity()).get(SearchViewModel.class);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         bookAdapter = new BookAdapter();
@@ -81,12 +86,19 @@ public class SearchResultsFragment extends BottomSheetDialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Observe the LiveData list of books from the ViewModel
-        viewModel.getSearchedBooks().observe(getViewLifecycleOwner(), new Observer<List<Book>>() {
+        homeViewModel.getSearchedBooks().observe(getViewLifecycleOwner(), new Observer<List<Book>>() {
             @Override
             public void onChanged(List<Book> books) {
                 // Update the adapter's data whenever the LiveData changes
                 bookAdapter.setBooksList(books);
 
+            }
+        });
+
+        searchViewModel.getSearchedBooks().observe(getViewLifecycleOwner(), new Observer<List<Book>>() {
+            @Override
+            public void onChanged(List<Book> books) {
+                bookAdapter.setBooksList(books);
             }
         });
     }
