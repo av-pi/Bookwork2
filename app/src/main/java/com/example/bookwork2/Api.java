@@ -11,7 +11,8 @@ public interface Api {
     public static final String BASE_URL = "https://www.googleapis.com/";
 
     @GET("books/v1/volumes")
-    Call<ResponseBody> searchByQuery(@Query("q") String query, @Query("maxResults") String max);
+    Call<ResponseBody> searchByQuery(@Query("q") String query,
+                                     @Query("maxResults") String max);
 
     @GET("books/v1/volumes")
     Call<ResponseBody> advancedSearch(@Query("q") String query,
