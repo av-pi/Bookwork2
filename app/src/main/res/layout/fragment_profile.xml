@@ -1,14 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ProfileFragment">
+<layout>
+    <data>
+        <import type="android.view.View"/>
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+        <variable
+            name="profileViewModel"
+            type="com.example.bookwork2.ProfileViewModel" />
+
+    </data>
+
+    <!-- fragment_profile.xml -->
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <!-- Header Section -->
+        <RelativeLayout
+            android:id="@+id/headerSection"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/profile_header_background"
+            android:visibility="@{profileViewModel.isLoggedIn ? View.VISIBLE : View.GONE}">
+
+            <!-- Profile Picture -->
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_default_profile_image"
+                android:scaleType="centerCrop" />
+
+            <!-- User Name -->
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/profileImage"
+                android:text="@{profileViewModel.name}"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp" />
+
+            <!-- Other header elements, such as settings, social share, etc., can be added here -->
+        </RelativeLayout>
+
+        <!-- Content Section -->
+        <ScrollView
+            android:id="@+id/body_section"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/headerSection"
+            android:visibility="@{profileViewModel.isLoggedIn ? View.VISIBLE : View.GONE}">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- User Book Statistics -->
+                <!-- Replace the icons and labels with appropriate representations -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp">
+
+                    <!-- Statistics Card 1 -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:background="@drawable/rounded_card_background">
+
+                        <!-- Statistics Icon -->
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_books"
+                            android:layout_gravity="center_horizontal" />
+
+                        <!-- Statistics Label -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="150"
+                            android:textSize="18sp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="8dp" />
+
+                        <!-- Statistics Description -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Books"
+                            android:textSize="12sp"
+                            android:layout_gravity="center_horizontal" />
+                    </LinearLayout>
+
+                    <!-- Statistics Card 2 -->
+                    <!-- Add more statistics cards as needed -->
+                </LinearLayout>
+
+                <!-- Favorite Genres
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        &lt;!&ndash; Genre Item 1 &ndash;&gt;
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:background="@drawable/genre_background">
+
+                            &lt;!&ndash; Genre Icon or Image &ndash;&gt;
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/ic_genre_fiction" />
+
+                            &lt;!&ndash; Genre Name &ndash;&gt;
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Fiction"
+                                android:textSize="12sp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_below="@id/genreIcon" />
+                        </RelativeLayout>
+
+                        &lt;!&ndash; Genre Item 2 &ndash;&gt;
+                        &lt;!&ndash; Add more genre items as needed &ndash;&gt;
+                    </LinearLayout>
+                </HorizontalScrollView>-->
+
+                <!-- Other profile page elements, such as reading challenges, recently read books, badges, etc., can be added here -->
+
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btnSignIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="@{profileViewModel.isLoggedIn ? View.GONE : View.VISIBLE}"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnLogOut"
+            android:text="Sign out"
+            android:layout_alignParentBottom="true"
+            android:visibility="@{profileViewModel.isLoggedIn ? View.VISIBLE : View.GONE}"/>
+
+    </RelativeLayout>
+
+
+</layout>
